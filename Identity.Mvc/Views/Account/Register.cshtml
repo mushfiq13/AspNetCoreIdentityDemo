@@ -1,0 +1,26 @@
+﻿@model RegistrationViewModel
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<h1>Registration</h1>
+
+<div class="container-fluid">
+	<form asp-controller="Account" asp-action="Register" asp-antiforgery="true" method="post">
+		<div class="row">
+			<label asp-for="UserName">User Name</label>
+			<input type="text" name="UserName" value="" />
+		</div>
+		<div class="row">
+			<label asp-for="Email">Email</label>
+			<input type="email" name="Email" value="" />
+		</div>
+		<div class="row">
+			<label asp-for="Password">Password</label>
+			<input type="text" name="Password" value="" />
+		</div>
+		<div class="row">
+			<input type="submit" value="Submit" class="btn btn-primary" />
+		</div>
+	</form>
+</div>
