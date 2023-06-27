@@ -1,19 +1,21 @@
 ﻿using Identity.Mvc.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Mvc;
 
-public static class IdentityConfig
+public static class IdentityHostingStartup
 {
-	public static void ConfigureIdentity(this IServiceCollection services)
+	public static void Configure(this IServiceCollection services)
 	{
 		services.AddDbContext<AppDbContext>(opt =>
 		{
 			opt.UseSqlServer(
 				@"Data Source=.\SQLEXPRESS;Database=practice_db;Trusted_Connection=True;TrustServerCertificate=True;");
 		});
+
 		services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(identityOptions =>
 			{
 				identityOptions.Password = new PasswordOptions
@@ -42,6 +44,8 @@ public static class IdentityConfig
 			.AddUserManager<UserManager<IdentityUser<Guid>>>()
 			.AddRoleManager<RoleManager<IdentityRole<Guid>>>()
 			.AddSignInManager<SignInManager<IdentityUser<Guid>>>()
+			.AddUserStore<UserStore<IdentityUser<Guid>, IdentityRole<Guid>, AppDbContext, Guid>>()
+			//.AddErrorDescriber<IdentityErrorDescriber>()
 			.AddEntityFrameworkStores<AppDbContext>()
 			.AddDefaultTokenProviders();
 

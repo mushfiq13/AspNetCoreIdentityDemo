@@ -1,40 +1,37 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<IdentityUser<Guid>> signInManager
 
-@if (signInManager.IsSignedIn(User) is true)
-{
-	<form id="logout-form"
-				class="navbar-right"
-				asp-controller="Account"
-				asp-action="LogOff"
-				asp-antiforgery="true"
-				method="post">
-		<ul class="nav navbar-nav navbar-right">
-			<li class="nav-item"> @User?.Identity?.Name </li>
-			<li class="nav-item">
-				<a href="javascript:document.getElementById('logout-form').submit()">Log Off</a>
-			</li>
-		</ul>
-	</form>
-}
-else
-{
-	<ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav navbar-right">
+	@if (signInManager.IsSignedIn(User) is true)
+	{
+		<li class="nav-item">
+			@User?.Identity?.Name
+		</li>
+		<li id="logout-form"
+				class="nav-item"
+				asp-area="Identity"
+				asp-page="/Account/Logout"
+				asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+			<a href="javascript:document.getElementById('logout-form').submit()">Log Off</a>
+		</li>
+	}
+	else
+	{
 		<li class="nav-item">
 			<a id="register-link"
-				 class="nav-link text-dark"			
-				 asp-controller="Account"
-				 asp-action="Register">
+				 class="nav-link text-dark"
+				 asp-area="Identity"
+				 asp-page="/Account/Register">
 				Registration
 			</a>
 		</li>
 		<li class="nav-item">
 			<a id="login-link"
-				 class="nav-link text-dark"
-				 asp-controller="Account"
-				 asp-action="SignIn">
+				class="nav-link text-dark"
+				asp-area="Identity"
+				asp-page="/Account/Login">
 				Sign In
 			</a>
 		</li>
-	</ul>
-}
+	}
+</ul>
