@@ -1,6 +1,7 @@
-﻿@using System.Security.Principal
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser<Guid>> signInManager
 
-@if (User?.Identity?.IsAuthenticated is true)
+@if (signInManager.IsSignedIn(User) is true)
 {
 	<form id="logout-form"
 				class="navbar-right"
@@ -9,7 +10,7 @@
 				asp-antiforgery="true"
 				method="post">
 		<ul class="nav navbar-nav navbar-right">
-			<li class="nav-item"> @User.Identity.Name </li>
+			<li class="nav-item"> @User?.Identity?.Name </li>
 			<li class="nav-item">
 				<a href="javascript:document.getElementById('logout-form').submit()">Log Off</a>
 			</li>
@@ -21,15 +22,19 @@ else
 	<ul class="nav navbar-nav navbar-right">
 		<li class="nav-item">
 			<a id="register-link"
-				 class="nav-link text-dark"
+				 class="nav-link text-dark"			
 				 asp-controller="Account"
-				 asp-action="Register">Registration</a>
+				 asp-action="Register">
+				Registration
+			</a>
 		</li>
 		<li class="nav-item">
 			<a id="login-link"
 				 class="nav-link text-dark"
 				 asp-controller="Account"
-				 asp-action="SignIn">Sign In</a>
+				 asp-action="SignIn">
+				Sign In
+			</a>
 		</li>
 	</ul>
 }
