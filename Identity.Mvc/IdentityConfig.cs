@@ -18,10 +18,10 @@ public static class IdentityConfig
 			{
 				identityOptions.Password = new PasswordOptions
 				{
-					RequireNonAlphanumeric = false,
-					RequireLowercase = false,
-					RequireUppercase = false,
-					RequireDigit = false,
+					RequireNonAlphanumeric = true,
+					RequireLowercase = true,
+					RequireUppercase = true,
+					RequireDigit = true,
 					RequiredLength = 6,
 					RequiredUniqueChars = 0
 				};
@@ -55,12 +55,15 @@ public static class IdentityConfig
 			authenticationScheme: CookieAuthenticationDefaults.AuthenticationScheme,
 			configureOptions: opt =>
 			{
-				opt.LoginPath = new PathString("/Account/Login");
-				opt.LogoutPath = new PathString("/Account/Logout");
-				opt.AccessDeniedPath = new PathString("/Account/Login");
-				opt.Cookie.Name = "IdentityCookie";
-				opt.SlidingExpiration = true;
-				opt.ExpireTimeSpan = TimeSpan.FromHours(1);
+				opt = new CookieAuthenticationOptions
+				{
+					LoginPath = new PathString("/Account/Login"),
+					LogoutPath = new PathString("/Account/Logout"),
+					AccessDeniedPath = new PathString("/Account/Login"),
+					Cookie = new() { Name = "IdentityCookie" },
+					SlidingExpiration = true,
+					ExpireTimeSpan = TimeSpan.FromHours(1)
+				};
 			}
 		);
 	}
